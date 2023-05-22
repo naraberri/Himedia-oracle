@@ -30,24 +30,40 @@ select age from student;
 select distinct(age) from student; --단일값만 출력
 
 --풀어보기1
-select username from student where grade='1'; --1번문제
-select username,age from student where age >= 15; --2번문제
-select userid from student where gender is null; --3번문제
+
+--1학년들의 이름을 출력하시오
+select username from student where grade='1';
+--15세 이상 이름과 나이를 출력하시오
+select username,age from student where age >= 15;
+--성별이 기록되어있지 않은 데이터의 아이디 값을 출력하시오(null값)
+select userid from student where gender is null;
 
 --풀어보기2
-select username,age,grade from student where userid='st101' or userid='st102'; --1번문제
-select * from student where age >= 15 and gender='F'; --2번문제
-select userid,username from student where grade='2'; --3번문제
-select avg(age) from student where gender='M' and age > 0; --4번문제
-select * from student order by age asc; --5번문제
+
+--아이디 st101과 st102의 이름,연령,학년을 출력하시오
+select username,age,grade from student where userid='st101' or userid='st102';
+--15세 이상의 여학생들만 전체 출력하시오
+select * from student where age >= 15 and gender='F';
+--2학년 남학생들의 아이디와 이름만을 출력하시오
+select userid,username from student where grade='2';
+--남자학생들의 평균연령을 출력하시오 (연령 값 0은 계산 제외)
+select avg(age) from student where gender='M' and age > 0;
+--남학생들을 연령순으로 순차적 정렬을 하시오
+select * from student order by age asc;
 
 savepoint sp1;
 
 --풀어보기3
-update student set age=14 where userid='st105'; --1번문제
-update student set age=15 where userid='st107'; --2번문제
-update student set grade=1 where grade is null and age = 14; --3번문제
-update student set grade=2 where grade is null and age = 15; --3번문제
-update student set gender='M' where gender is null; --4번문제
+
+--아이디 st105의 연령을 14세로 대입한다
+update student set age=14 where userid='st105';
+--아이디 st107의 연령을 15세로 대입한다
+update student set age=15 where userid='st107';
+--학년이 비워 있는 곳에 아래와 같은 기준으로 데이터를 채운다
+-- 연령14세:1 , 15세:2 , 16세:3
+update student set grade=1 where grade is null and age = 14;
+update student set grade=2 where grade is null and age = 15;
+--성별이 비워있는 데이터의 값을 모두 남성 처리한다
+update student set gender='M' where gender is null;
 
 rollback sp1;
